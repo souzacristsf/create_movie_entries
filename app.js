@@ -23,10 +23,10 @@ MongoClient.connect('mongodb://localhost:27017/video', function(err, db) {
     assert.equal(null, err);
     console.log("Successfully connected to MongoDB.");
 
-    app.get('/', function(req, res) {
+    app.get('/', function(req, res, next) {
 
         db.collection('movies').find({}).toArray(function(err, docs) {
-            res.render('movies'); //, { 'movies': docs } );
+            res.render('movies', { 'movies': docs } );
         });
         // res.render('entries');
 
@@ -36,7 +36,7 @@ MongoClient.connect('mongodb://localhost:27017/video', function(err, db) {
         var title = req.body.title;
         var year = req.body.year;
         var imdb = req.body.imdb;
-
+        console.log(req)
         db.collection('movies').insert({title: title, year: year, imdb: imdb}, function(err, docs) {
 
             res.send("inserido com sucesso");
